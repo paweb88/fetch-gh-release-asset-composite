@@ -46,7 +46,7 @@ The body (description) of a release.
 ## Example usage
 
 ```yaml
-uses: dsaltares/fetch-gh-release-asset@master
+uses: paweb88/fetch-gh-release-asset-composite@master
 with:
   repo: "paweb88/fetch-gh-release-asset"
   version: "tags/v0.1.18"
