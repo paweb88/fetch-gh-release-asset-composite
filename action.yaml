@@ -1,0 +1,49 @@
+name: 'Fetch Github Release Asset as Composite Actions'
+description: 'Downloads an asset from a Github release'
+
+inputs:
+  repo:
+    description: 'The `org/repo` containing the release.'
+    required: false
+    default: ''
+  version:
+    description: 'The release version to fetch from in the form `tags/<tag_name>` or `<release_id>`.'
+    required: false
+    default: 'latest'
+  file:
+    description: 'The name of the file to be downloaded.'
+    required: true
+  target:
+    description: 'Target file path.'
+    required: false
+  token:
+    description: 'The GitHub token. Typically this will be secrets.GITHUB_TOKEN'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - run: ${{ github.action_path }}/fetch_github_asset.sh
+      shell: bash
+      id: fetch
+      env:
+        INPUT_REPO: ${{ inputs.repo }}
+        INPUT_VERSION: ${{ inputs.version }}
+        INPUT_FILE: ${{ inputs.file }}
+        INPUT_TARGET: ${{ inputs.target }}
+        INPUT_TOKEN: ${{ inputs.token }}
+
+outputs:
+  version:
+    description: 'The version of the release or tag'
+    value: ${{ steps.fetch.outputs.version }}
+  name:
+    description: 'The name of the release'
+    value: ${{ steps.fetch.outputs.name }}
+  body:
+    description: 'The body of the release'
+    value: ${{ steps.fetch.outputs.body }}
+
+branding:
+  icon: 'download-cloud'
+  color: 'orange'
